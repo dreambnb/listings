@@ -1,7 +1,7 @@
 const express = require('express');
 const parser = require('body-parser');
 const morgan = require('morgan');
-const db = require('./db.js');
+const db = require('../data/data.js');
 const path = require('path');
 const cors = require('cors');
 const redisModule = require('redis');
@@ -9,7 +9,8 @@ const responseTime = require('response-time');
 
 const app = express();
 
-const redis = redisModule.createClient('6379', '172.17.0.3');
+// const redis = redisModule.createClient('6379', '172.17.0.3');
+const redis = redisModule.createClient();
 
 redis.on('error', (err) => {
   console.log('Error on redis', err);
@@ -21,15 +22,15 @@ app.use(cors());
 app.use(responseTime());
 
 // app.use(':locationId', express.static(path.join(__dirname, '../client/dist')));
-app.use(express.static(path.join(__dirname, '../client/dist')));
+app.use('/:id', express.static(path.join(__dirname, '../client/dist')));
 
 app.get('/rooms/:listingId/similar_listings', (req, res) => {
-
+  
   const id = req.params.listingId;
-
   redis.get(id, (err, result) => {
     if (result) {
       console.log('in redis!');
+      console.log(result)
       res.send(JSON.parse(result));  
     } else {
       db.getSimilarListings(id, (err, listings) => {
