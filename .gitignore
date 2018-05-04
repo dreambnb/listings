@@ -1,3 +1,6 @@
 node_modules
 bundle.js
 data.json
+dataSQL
+.vscode
+dump.rdb
