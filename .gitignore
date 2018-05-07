@@ -4,3 +4,5 @@ data.json
 dataSQL
 .vscode
 dump.rdb
+newrelic.js
+newrelic_agent.log

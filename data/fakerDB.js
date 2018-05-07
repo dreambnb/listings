@@ -2,13 +2,13 @@ const faker = require('faker');
 const db = require('./data.js');
 const fs = require('fs');
 
-var idNumber = 0 
-for (var j = 0; j< 5000;j++){
-  var listings = [];
-  for (var i = 0; i < 2000; i++) {
+let idNumber = 0 
+for (let j = 0; j< 5000;j++){
+  let listings = [];
+  for (let i = 0; i < 2000; i++) {
     idNumber++;
-    var listing = {};
-    var imageId = idNumber%1000
+    let listing = {};
+    let imageId = idNumber%1000
     listing.id = idNumber;
     listing.imageUrl =`https://picsum.photos/316/210?image=${imageId}`
     listing.description = 'ENTIRE HOUSE ' + (Math.floor(Math.random() * Math.floor(3))+1) +' BED',

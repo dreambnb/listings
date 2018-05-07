@@ -1,0 +1,25 @@
+# config:
+#   target: 'https://localhost:3333'
+#   phases:
+#     - duration: 60
+#       arrivalCount: 20
+# scenarios:
+#  - name: "Browsing"
+#    flow:
+#       - loop:
+#         - get:
+#             url:  "/{{ $loopCount }}"
+#             count: 100
+
+config:
+  target: "http://localhost:3333"
+  phases:
+    - duration: 20
+      arrivalCount: 20
+scenarios:
+  - name: "Browsing"
+    flow:
+    - loop:
+      - get:
+          url: "/{{ $loopCount }}"
+          count: 100
