@@ -1,11 +1,14 @@
+require('newrelic');
+
 const express = require('express');
 const parser = require('body-parser');
 const morgan = require('morgan');
-const db = require('../data/data.js');
+const db = require('../data/dataDB.js');
 const path = require('path');
 const cors = require('cors');
 const redisModule = require('redis');
 const responseTime = require('response-time');
+
 
 const app = express();
 
