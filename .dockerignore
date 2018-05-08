@@ -1,0 +1,8 @@
+node_modules
+bundle.js
+data.json
+dataSQL
+.vscode
+dump.rdb
+newrelic.js
+newrelic_agent.log

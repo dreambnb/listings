@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
-module.exports.connection = mongoose.connect('mongodb://localhost/dreambnb');
+module.exports.connection = mongoose.connect('mongodb://localhost/dreambnb'); //change localhost --> database for ec2
+
 // const redisClient = require('redis').createClient;
 
 // const redis = redisClient(6379, 'localhost');

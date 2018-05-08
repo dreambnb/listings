@@ -68,8 +68,8 @@ class Listing extends React.Component  {
           <h4 className={styles.description}>{this.data.description}</h4>
           <h2 className={styles.title}>{this.data.title}</h2>
           <p className={styles.price}>${this.data.price} per night</p>
-          <Rating rating={this.data.avg_rating}/>
-          <span className={styles.numReviews}>{this.data.num_reviews}</span>
+          <Rating rating={this.data.avgRating}/>
+          <span className={styles.numReviews}>{this.data.numOfReviews}</span>
         </div>
       </div>
     )

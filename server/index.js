@@ -6,14 +6,16 @@ const morgan = require('morgan');
 const db = require('../data/dataDB.js');
 const path = require('path');
 const cors = require('cors');
-const redisModule = require('redis');
 const responseTime = require('response-time');
+// uncomment these for local 
+const redisModule = require('redis');
+const redis = redisModule.createClient();
 
+// uncomment below for docker
+// const redisClient = require('redis').createClient;
+// const redis = redisClient('redis://cache:6379');
 
 const app = express();
-
-// const redis = redisModule.createClient('6379', '172.17.0.3');
-const redis = redisModule.createClient();
 
 redis.on('error', (err) => {
   console.log('Error on redis', err);
@@ -27,7 +29,7 @@ app.use(responseTime());
 // app.use(':locationId', express.static(path.join(__dirname, '../client/dist')));
 app.use('/:id', express.static(path.join(__dirname, '../client/dist')));
 
-app.get('/rooms/:listingId/similar_listings', (req, res) => {
+app.get('/rooms/:listingId', (req, res) => {
   
   const id = req.params.listingId;
   redis.get(id, (err, result) => {
