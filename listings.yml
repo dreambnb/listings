@@ -1,25 +1,25 @@
-# config:
-#   target: 'https://localhost:3333'
-#   phases:
-#     - duration: 60
-#       arrivalCount: 20
-# scenarios:
-#  - name: "Browsing"
-#    flow:
-#       - loop:
-#         - get:
-#             url:  "/{{ $loopCount }}"
-#             count: 100
 
 config:
   target: "http://localhost:3333"
   phases:
-    - duration: 20
-      arrivalCount: 20
+    - duration: 50
+      arrivalCount: 40
 scenarios:
   - name: "Browsing"
     flow:
     - loop:
       - get:
-          url: "/rooms/{{ $loopCount }}"
-          count: 5
+          url: "/rooms/{{ $loopCount }}" 
+          count: 200
+
+
+
+# config:
+#   target: "http://localhost:3333"
+#   phases:
+#     - duration: 20
+#       arrivalCount: 20
+# scenarios:
+#   - flow:
+#     - get:
+#       url: "/rooms/{{ $randomNumber(1,100000) }}"
