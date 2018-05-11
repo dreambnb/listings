@@ -14,7 +14,7 @@ var listingsSchema = new Schema({
   title: String,
   zipcode: Number,
   price: Number,
-  numReviews: Number,
+  numOfReviews: Number,
   avgRating: Number,
 })
 
