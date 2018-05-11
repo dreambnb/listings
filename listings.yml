@@ -1,16 +1,66 @@
+# normal api
+# config:
+#   target: "http://localhost:3333"
+#   phases:
+#     - duration: 50
+#       arrivalCount: 40
+# scenarios:
+#   - name: "Browsing"
+#     flow:
+#     - loop:
+#       - get:
+#           url: "/rooms/{{ $loopCount }}" 
+#           count: 200
 
+# config:
+#   target: "http://localhost:3333"
+#   phases:
+#     - duration: 50
+#       arrivalCount: 40
+# scenarios:
+#   - name: "Browsing"
+#     flow:
+#     - loop:
+#       - get:
+#           url: "/{{ $loopCount }}" 
+#           count: 200
+
+
+# graphqlapi
 config:
-  target: "http://localhost:3333"
+  target: "http://localhost:4000/graphql"
   phases:
     - duration: 50
       arrivalCount: 40
+  variables:
+    raw: true
+    listings: |-
+      {
+        listing(raw: '{{raw}}', id: $id) {
+          listings{
+            id
+            imageUrl
+            description
+            title
+            zipcode
+            price
+            numOfReviews
+            avgRating
+          }
+        }
+      } 
 scenarios:
   - name: "Browsing"
     flow:
     - loop:
       - get:
-          url: "/rooms/{{ $loopCount }}" 
-          count: 200
+          url: /
+          json: 
+            query: '{{listings}}'
+            variables: 
+              id: '{{ $randomNumber(1,100000) }}'
+              raw: '{{ raw }}'
+    - count: 200
 
 
 

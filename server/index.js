@@ -1,4 +1,3 @@
-require('newrelic');
 
 const express = require('express');
 const parser = require('body-parser');
@@ -7,6 +6,7 @@ const db = require('../data/dataDB.js');
 const path = require('path');
 const cors = require('cors');
 const responseTime = require('response-time');
+
 // uncomment these for local 
 const redisModule = require('redis');
 const redis = redisModule.createClient();
@@ -20,6 +20,7 @@ const app = express();
 redis.on('error', (err) => {
   console.log('Error on redis', err);
 })
+
 
 app.use(morgan('dev'));
 app.use(parser.json());

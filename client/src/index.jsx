@@ -1,10 +1,37 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import ApolloClient from 'apollo-boost';
+import { ApolloProvider } from 'react-apollo';
+import { gql } from 'apollo-boost';
+import {graphql} from 'react-apollo'
 import Slider from  'react-slick';
 import styles from './style.css';
 import Listing from './Listing.jsx';
 import PrevArrow from './PrevArrow.jsx';
 import NextArrow from './NextArrow.jsx';
+
+
+// apollo client setup
+const client = new ApolloClient({
+  uri: 'http://localhost:4000/graphql'
+});
+
+const getListingsQuery = gql`
+    query listing($id: Int!){
+      listing(id: $id) {
+        listings{
+          id
+          imageUrl
+          description
+          title
+          zipcode
+          price
+          numOfReviews
+          avgRating
+        }
+      }
+    }
+`;
 
 class SimilarListings extends React.Component {
 
@@ -31,23 +58,41 @@ class SimilarListings extends React.Component {
     }
 
     fetchSimilarListings () {
-      const url = (process.env.NODE_ENV === 'production') ? 'http://ec2-18-188-208-12.us-east-2.compute.amazonaws.com': 'http://localhost:3333'
-      console.log(this.props.currentListingId)
-      fetch(`${url}/rooms/${this.props.currentListingId}`)
-        .then(response => response.json())
-        .then(
-          (listings) => {
-            this.setState({
-              listings: listings,
-              index: 0,
-              listingsLength: listings.length
-            },()=> console.log(this.state.listings))
-          },
+
+      // restful API get request 
+      // const url = (process.env.NODE_ENV === 'production') ? 'http://ec2-18-188-208-12.us-east-2.compute.amazonaws.com': 'http://localhost:3333'
+      // console.log(this.props.currentListingId)
+      // fetch(`${url}/rooms/${this.props.currentListingId}`)
+      //   .then(response => response.json())
+      //   .then(
+      //     (listings) => {
+      //       this.setState({
+      //         listings: listings,
+      //         index: 0,
+      //         listingsLength: listings.length
+      //       })
+      //     },
     
-          (error)=> {
-            console.log('sorry error!', error);
-          }  
-      )
+      //     (error)=> {
+      //       console.log('sorry error!', error);
+      //     }  
+      // )
+
+
+      //graphql get request
+      client
+        .query({
+          query: getListingsQuery,
+          variables: { id: this.props.currentListingId}
+        })
+        .then((result) => {
+          this.setState({
+              listings: result.data.listing.listings,
+              index: 0,
+              listingsLength: result.data.listing.listings.length
+            })
+        });
+
     }
 
     render () {
@@ -63,16 +108,18 @@ class SimilarListings extends React.Component {
       };
 
       return (
-        <div className={styles.listings}>
-        <h1 className={`${styles.header} ${styles.font} `}>Similar listings</h1>
-            <Slider {...settings}>
-            {
-              this.state.listings.map((listing, index) => {
-                return <Listing key={index} data={listing} index={index}/>
-              })
-            }
-            </Slider>
-        </div>
+        <ApolloProvider client={client}>
+          <div className={styles.listings}>
+          <h1 className={`${styles.header} ${styles.font} `}>Similar listings</h1>
+              <Slider {...settings}>
+              {
+                this.state.listings.map((listing, index) => {
+                  return <Listing key={index} data={listing} index={index}/>
+                })
+              }
+              </Slider>
+          </div>
+        </ApolloProvider>
       )
     };
 
