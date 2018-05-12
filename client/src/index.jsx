@@ -5,6 +5,9 @@ import styles from './style.css';
 import Listing from './Listing.jsx';
 import PrevArrow from './PrevArrow.jsx';
 import NextArrow from './NextArrow.jsx';
+import style from './style.css';
+
+const CSS = style._getCss();
 
 class SimilarListings extends React.Component {
 
@@ -41,7 +44,7 @@ class SimilarListings extends React.Component {
               listings: listings,
               index: 0,
               listingsLength: listings.length
-            },()=> console.log(this.state.listings))
+            })
           },
     
           (error)=> {
@@ -63,15 +66,18 @@ class SimilarListings extends React.Component {
       };
 
       return (
-        <div className={styles.listings}>
-        <h1 className={`${styles.header} ${styles.font} `}>Similar listings</h1>
-            <Slider {...settings}>
-            {
-              this.state.listings.map((listing, index) => {
-                return <Listing key={index} data={listing} index={index}/>
-              })
-            }
-            </Slider>
+        <div>
+          <style>{CSS}</style>
+          <div className={styles.listings}>
+          <h1 className={`${styles.header} ${styles.font} `}>Similar listings</h1>
+              <Slider {...settings}>
+              {
+                this.state.listings.map((listing, index) => {
+                  return <Listing key={index} data={listing} index={index}/>
+                })
+              }
+              </Slider>
+          </div>
         </div>
       )
     };
