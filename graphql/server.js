@@ -6,25 +6,42 @@ const schema = require('./schema/schema.js');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const path = require('path');
+const cluster = require('cluster');
 
 
-const app = express();
+if (cluster.isMaster) {
+  // Count the machine's CPUs
+  const cpuCount = require('os').cpus().length;
 
-app.use(cors());
+  // Create a worker for each CPU
+  for (let i = 0; i < cpuCount; i++) {
+    cluster.fork();
+  }
+} else {
 
-mongoose.connect('mongodb://localhost/dreambnb')
-mongoose.connection.once('open', () => {
-  console.log('conneted to database');
-});
-app.use('/:id', express.static(path.join(__dirname, '../client/dist')));
+  const app = express();
 
-app.use('/graphql', graphqlHTTP({
-  schema,
-  graphiql: true
-}));
+  app.use(cors());
 
-let port = 4000;
+  mongoose.connect('mongodb://localhost/dreambnb')
+  mongoose.connection.once('open', () => {
+    console.log('conneted to database');
+  });
 
-app.listen(port, function () {
-  console.log(`listening on port ${port}`);
-});
+
+  app.use('/graphql', graphqlHTTP({
+    schema,
+    graphiql: true
+  }));
+
+  app.use('/:id', express.static(path.join(__dirname, '../client/dist')));
+
+
+
+  let port = 4000;
+
+  app.listen(port, function () {
+    console.log(`listening on port ${port}`);
+  });
+
+}

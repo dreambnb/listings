@@ -27,42 +27,54 @@
 
 
 # graphqlapi
+# config:
+#   target: "http://localhost:4000/graphql"
+#   phases:
+#     - duration: 50
+#       arrivalCount: 40
+#   variables:
+#     raw: true
+#     listings: |-
+#       {
+#         listing(raw: '{{raw}}', id: $id) {
+#           listings{
+#             id
+#             imageUrl
+#             description
+#             title
+#             zipcode
+#             price
+#             numOfReviews
+#             avgRating
+#           }
+#         }
+#       } 
+# scenarios:
+#   - name: "Browsing"
+#     flow:
+#     - loop:
+#       - get:
+#           url: /
+#           json: 
+#             query: '{{listings}}'
+#             variables: 
+#               id: '{{ $randomNumber(1,100000) }}'
+#               raw: '{{ raw }}'
+#     - count: 200
+
+
 config:
-  target: "http://localhost:4000/graphql"
+  target: "http://localhost:4000"
   phases:
     - duration: 50
       arrivalCount: 40
-  variables:
-    raw: true
-    listings: |-
-      {
-        listing(raw: '{{raw}}', id: $id) {
-          listings{
-            id
-            imageUrl
-            description
-            title
-            zipcode
-            price
-            numOfReviews
-            avgRating
-          }
-        }
-      } 
 scenarios:
   - name: "Browsing"
     flow:
     - loop:
       - get:
-          url: /
-          json: 
-            query: '{{listings}}'
-            variables: 
-              id: '{{ $randomNumber(1,100000) }}'
-              raw: '{{ raw }}'
-    - count: 200
-
-
+          url: "/graphql?query=%7B%0A%20%20listing(id%3A%20{{ $loopCount }})%20%7B%0A%20%20%20%20id%0A%20%20%20%20listings%20%7B%0A%20%20%20%20%20%20id%0A%20%20%20%20%20%20imageUrl%0A%20%20%20%20%20%20description%0A%20%20%20%20%20%20title%0A%20%20%20%20%20%20zipcode%0A%20%20%20%20%20%20price%0A%20%20%20%20%20%20numOfReviews%0A%20%20%20%20%20%20avgRating%0A%20%20%20%20%7D%0A%20%20%7D%0A%7D%0A"
+          count: 200
 
 # config:
 #   target: "http://localhost:3333"
