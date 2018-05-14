@@ -3,13 +3,15 @@ import ReactDOM from 'react-dom';
 import Rating from './Rating.jsx';
 import styles from './MiniListingStyle.css';
 
-const MiniListingCSS = styles._getCss();
 
+// comment below out for client side rendering
+const MiniListingCSS = styles._getCss();
 
 const MiniListing = ({data}) => {
 
   return (
     <div>
+      {/* comment below out for client side rendering */}
       <style>{MiniListingCSS}</style>
       <div className={styles.miniListing}>
         <div>

@@ -1,13 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Slider from  'react-slick';
-import styles from './style.css';
 import Listing from './Listing.jsx';
 import PrevArrow from './PrevArrow.jsx';
 import NextArrow from './NextArrow.jsx';
-import style from './style.css';
+import styles from './style.css';
 
-const CSS = style._getCss();
+//comment below out for client side rendering
+const CSS = styles._getCss();
 
 class SimilarListings extends React.Component {
 
@@ -54,7 +54,7 @@ class SimilarListings extends React.Component {
     }
 
     render () {
-
+      console.log('im in indexjsx')
       var settings = {
         slidesToShow: 3,
         slidesToScroll: 1, 
@@ -67,6 +67,7 @@ class SimilarListings extends React.Component {
 
       return (
         <div>
+          {/* comment below out for client side rendering */}
           <style>{CSS}</style>
           <div className={styles.listings}>
           <h1 className={`${styles.header} ${styles.font} `}>Similar listings</h1>

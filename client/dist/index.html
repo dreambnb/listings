@@ -13,13 +13,13 @@
 <div id="similarListing"></div>
 <script crossorigin src="https://unpkg.com/react@16/umd/react.production.min.js"></script>
 <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"></script>
-<script type="text/javascript" src="bundle.js"></script>
+<script type="text/javascript" src="./app.js"></script>
 <script>
   // ReactDOM.render(<SimilarListings currentListingId={50}/>, document.getElementById('similarListing'));
   let locationId = window.location.pathname.split('/')[1];
   // console.log('here is the pathname', locationId);
   ReactDOM.render(
-        React.createElement(SimilarListings, {currentListingId: locationId}, null),
+        React.createElement(SimilarListings, {currentListingId: locationId}),
         document.getElementById('similarListing')
       );
 </script>
