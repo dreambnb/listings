@@ -6,3 +6,5 @@ dataSQL
 dump.rdb
 newrelic.js
 newrelic_agent.log
+app.js
+app-server.js
