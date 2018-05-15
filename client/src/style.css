@@ -5,6 +5,7 @@
 font-family: 'Open Sans', sans-serif; */
 }
 
+
 /* .listings {
   composes: font;
 } */
@@ -82,7 +83,7 @@ font-family: 'Open Sans', sans-serif; */
   width: 1000px;
   position: relative;
   box-sizing: content-box;
-  margin-left: 62px;
+  margin: auto;
 }
 
 .leftArrow {
@@ -126,10 +127,23 @@ font-family: 'Open Sans', sans-serif; */
   width: 316px;
 }
 
+.image:hover {
+  cursor: pointer;
+}
+
+.listingText:hover {
+  cursor: pointer;
+}
+
+
 .heartPath {
   stroke: white;
   stroke-width: 2px;
   transform: scale(0.85);
+}
+
+.heartPath:hover, .heartSVG:hover, .filledHeartSVG {
+  cursor: pointer;
 }
 
 
@@ -140,6 +154,7 @@ font-family: 'Open Sans', sans-serif; */
   z-index: 1;
   fill-opacity: .4;
   width: 32px;
+  height: 26px;
 }
 
 .filledHeartSVG {
@@ -148,6 +163,7 @@ font-family: 'Open Sans', sans-serif; */
   right: 28px;
   z-index: 1;
   width: 32px;
+  height: 26px;
   fill: rgb(225,90,95);
 }
 
@@ -316,4 +332,60 @@ td {
 
 .createBox {
   height: 162px;
+}
+
+@keyframes dots-pulse {
+  0% {
+    opacity: 0.1; }
+  15% {
+    opacity: 1; }
+  100% {
+    opacity: 0.1; } }
+
+
+.dots .dot {
+  border-radius: 100%;
+  display: inline-block;
+  margin-right: .8em;
+  background-color: #008489;
+  width: 0.5em;
+  height: 0.5em;
+  animation-name: dots-pulse;
+  animation-duration: 0.8s;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite; 
+}
+
+.dotContainer {
+  text-align: center;
+  padding: 20%;
+}
+
+  .dots .dot:last-child {
+    margin-right: 0; }
+
+  .dot:first-of-type {
+    animation-delay: -0.5s;
+  }
+  .dot:nth-of-type(2) {
+    animation-delay: -0.3s;
+  }
+  .dot:nth-of-type(3) {
+    animation-delay: -0.1s;
+  }
+
+
+.hidden {
+  display: none;
+}
+
+@media only screen and (max-width: 1120px) {
+  .listings {
+    width: 779px;
+  }
+
+  .image {
+    width: 375px;
+    height: 263px;
+  }
 }

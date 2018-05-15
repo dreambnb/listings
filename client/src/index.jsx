@@ -1,13 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import styles from './style.css';
 import Slider from  'react-slick';
 import Listing from './Listing.jsx';
 import PrevArrow from './PrevArrow.jsx';
 import NextArrow from './NextArrow.jsx';
-import styles from './style.css';
 
 //comment below out for client side rendering
-const CSS = styles._getCss();
+// const CSS = styles._getCss();
 
 class SimilarListings extends React.Component {
 
@@ -17,10 +17,13 @@ class SimilarListings extends React.Component {
       this.state = {
         listings: [],
         index: 0,
-        listingsLength: 4
+        listingsLength: null,
+        loadedAllImages: false,
+        imagesCounter: 0
       }
 
       this.fetchSimilarListings = this.fetchSimilarListings.bind(this);
+      this.onLoad = this.onLoad.bind(this);
     }
 
     componentDidMount () {
@@ -30,6 +33,16 @@ class SimilarListings extends React.Component {
     componentDidUpdate(prevProps) {
       if (prevProps.currentListingId !== this.props.currentListingId) {
         this.fetchSimilarListings();
+      }
+    }
+
+    onLoad() {
+      let counter = this.state.imagesCounter + 1;
+      this.setState({ imagesCounter: counter });
+      if (counter === this.state.listingsLength) {
+        this.setState({
+          loadedAllImages: true
+        })
       }
     }
 
@@ -54,7 +67,6 @@ class SimilarListings extends React.Component {
     }
 
     render () {
-      console.log('im in indexjsx')
       var settings = {
         slidesToShow: 3,
         slidesToScroll: 1, 
@@ -62,27 +74,53 @@ class SimilarListings extends React.Component {
         infinite: false,
         nextArrow: <NextArrow  currentIndex = {this.state.index} maxLength = {this.state.listingsLength}/>,
         prevArrow: <PrevArrow currentIndex = {this.state.index}/>,
-        afterChange: current => this.setState({index: current})
+        afterChange: current => this.setState({index: current}),
+        responsive: [
+          {
+            breakpoint: 1120,
+            settings: {
+              slidesToShow: 2,
+              slidesToScroll: 1,
+            }
+          }
+        ]
       };
-
-      return (
-        <div>
-          {/* comment below out for client side rendering */}
-          <style>{CSS}</style>
-          <div className={styles.listings}>
-          <h1 className={`${styles.header} ${styles.font} `}>Similar listings</h1>
-              <Slider {...settings}>
-              {
-                this.state.listings.map((listing, index) => {
-                  return <Listing key={index} data={listing} index={index}/>
-                })
-              }
-              </Slider>
+      if (!this.state.loadedAllImages){
+        return (
+          <div>
+            <div className={styles.dotContainer}>
+              <div className={styles.dots}>
+                <div className={styles.dot}></div>
+                <div className={styles.dot}></div>
+                <div className={styles.dot}></div>
+              </div>
+            </div>
+            <div className={styles.hidden}>
+              {this.state.listings.map((listing, i) =>
+                <img src={listing.imageUrl} onLoad={this.onLoad} key={i} />
+              )}
+            </div>
           </div>
-        </div>
-      )
+        )
+      } else {
+        return (
+          <div>
+            {/* comment below out for client side rendering */}
+            {/* <style>{CSS}</style> */}
+            <div className={styles.listings}>
+              <h1 className={`${styles.header} ${styles.font} `}>Similar listings</h1>
+              <Slider {...settings}>
+                {
+                  this.state.listings.map((listing, index) => {
+                    return <Listing key={index} data={listing} index={index} />
+                  })
+                }
+              </Slider>
+            </div>
+          </div>
+        )
+      } 
     };
-
 }
 
 
