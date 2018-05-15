@@ -67,7 +67,6 @@ class SimilarListings extends React.Component {
     }
 
     render () {
-      console.log('im in indexjsx')
       var settings = {
         slidesToShow: 3,
         slidesToScroll: 1, 

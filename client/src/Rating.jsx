@@ -1,16 +1,16 @@
 import React from 'react';
 import styles from './style.css';
 
-const Rating = ({rating}) => {
+const Rating = ({ rating }) => {
 
   let stars = [];
   for (let i = 0; i < 10; i++) {
     let klass = `fas fa-star ${styles.gray} ${styles.stars}`;
-    if (Math.floor(rating*2) > i) {
+    if (Math.floor(rating * 2) > i) {
       klass = `fas fa-star teal ${styles.teal} ${styles.stars}`;
     }
     stars.push(
-      <span 
+      <span
         style={{
           display: "inline-block",
           width: "5px",
@@ -23,11 +23,11 @@ const Rating = ({rating}) => {
     );
   }
 
-return (
+  return (
 
-  <span>{stars}</span>
+    <span>{stars}</span>
 
-)
+  )
 }
 
 export default Rating;
